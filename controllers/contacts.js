@@ -1,59 +1,49 @@
-// const fs = require("fs/promises");
-// const path = require("path");
-// const { nanoid } = require("nanoid");
-
-// const contactsPath = path.join(__dirname, "/models/contact");
-
 const Contact = require("../models/contact");
 
-const listContacts = async (req, res) => {
-  const data = await Contact.find();
-  res.json(data);
+const { HttpError, ctrlWrapper } = require("../helpers");
+
+const getAll = async (req, res) => {
+  const result = await Contact.find();
+  res.json(result);
 };
 
-// const getContactById = async (contactId) => {
-//   const contacts = await listContacts();
-//   const result = contacts.find((contact) => contact.id === contactId);
-//   return result || null;
-// };
-
-// const addContact = async (body) => {
-//   const contacts = await listContacts();
-//   const newContact = {
-//     id: nanoid(),
-//     ...body,
-//   };
-//   contacts.push(newContact);
-//   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-//   return newContact;
-// };
-
-// const removeContact = async (contactId) => {
-//   const contacts = await listContacts();
-//   const index = contacts.findIndex((contact) => contact.id === contactId);
-//   if (index === -1) {
-//     return null;
+// const getById = async (req, res) => {
+//   const { contactId } = req.params;
+//   const result = await contacts.getContactById(contactId);
+//   if (!result) {
+//     throw new HttpError(404, "Not Found");
 //   }
-//   const [result] = contacts.splice(index, 1);
-//   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-//   return result;
+//   res.json(result);
+// };
+// const add = async (req, res) => {
+//   const result = await contacts.addContact(req.body);
+//   res.status(201).json(result);
 // };
 
-// const updateContact = async (contactId, body) => {
-//   const contacts = await listContacts();
-//   const index = contacts.findIndex((contact) => contact.id === contactId);
-//   if (index === -1) {
-//     return null;
+// const deleteById = async (req, res) => {
+//   const { contactId } = req.params;
+//   const result = await contacts.removeContact(contactId);
+//   if (!result) {
+//     throw new HttpError(404, "Not Found");
 //   }
-//   contacts[index] = { id: contactId, ...body };
-//   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-//   return contacts[index];
+//   res.status(200).json({
+//     message: "contact deleted",
+//   });
+// };
+
+// const updateById = async (req, res) => {
+//   const { contactId } = req.params;
+//   const result = await contacts.updateContact(contactId, req.body);
+//   if (!result) {
+//     throw new HttpError(404, "Not Found");
+//   }
+//   res.json(result);
 // };
 
 module.exports = {
-  listContacts,
-  // getContactById,
-  // removeContact,
-  // addContact,
-  // updateContact,
+  getAll: ctrlWrapper(getAll),
+  //   getById: ctrlWrapper(getById),
+  //   add: ctrlWrapper(add),
+  //   deleteById: ctrlWrapper(deleteById),
+  //   updateById: ctrlWrapper(updateById),
 };
