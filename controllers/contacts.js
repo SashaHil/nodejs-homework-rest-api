@@ -4,10 +4,10 @@
 
 // const contactsPath = path.join(__dirname, "/models/contact");
 
-const Book = require("../models/contact");
+const Contact = require("../models/contact");
 
 const listContacts = async (req, res) => {
-  const data = await Book.find();
+  const data = await Contact.find();
   res.json(data);
 };
 
