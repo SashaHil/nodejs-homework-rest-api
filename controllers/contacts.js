@@ -1,5 +1,4 @@
 const { Contact } = require("../models/contact");
-
 const { HttpError, ctrlWrapper } = require("../helpers");
 
 const getAll = async (__, res) => {
@@ -16,7 +15,7 @@ const getById = async (req, res) => {
   res.json(result);
 };
 
-const add = async (req, res) => {
+const addContact = async (req, res) => {
   const result = await Contact.create(req.body);
   res.status(201).json(result);
 };
@@ -43,7 +42,7 @@ const updateById = async (req, res) => {
   res.json(result);
 };
 
-const updateFavorite = async (req, res) => {
+const updateStatusContact = async (req, res) => {
   const { contactId } = req.params;
   const result = await Contact.findByIdAndUpdate(contactId, req.body, {
     new: true,
@@ -57,8 +56,8 @@ const updateFavorite = async (req, res) => {
 module.exports = {
   getAll: ctrlWrapper(getAll),
   getById: ctrlWrapper(getById),
-  add: ctrlWrapper(add),
+  add: ctrlWrapper(addContact),
   deleteById: ctrlWrapper(deleteById),
   updateById: ctrlWrapper(updateById),
-  updateFavorite: ctrlWrapper(updateFavorite),
+  updateStatusContact: ctrlWrapper(updateStatusContact),
 };
